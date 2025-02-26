@@ -1,11 +1,11 @@
-resource "aws_subnet" "subnet1" {
+resource "aws_subnet" "fargate-subnet" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.50.1.0/24"
   availability_zone       = "us-east-1"
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "subnet1"
+    Name = "fargate-subnet"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_ecs_service" "grafana_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets = [aws_subnet.subnet1.id]
+    subnets = [aws_subnet.fargate-subnet.id]
     security_groups = [aws_security_group.allow_all.id]
     assign_public_ip = true
   }
@@ -86,7 +86,7 @@ resource "aws_ecs_service" "nginx_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets = [aws_subnet.subnet1.id]
+    subnets = [aws_subnet.fargate-subnet.id]
     security_groups = [aws_security_group.allow_all.id]
     assign_public_ip = true
   }
