@@ -9,12 +9,12 @@ resource "aws_subnet" "subnet1" {
   }
 }
 
-# 2. ECS Cluster
+
 resource "aws_ecs_cluster" "fargate_cluster" {
   name = "fargate-cluster"
 }
 
-# 3. Task Definition - Grafana
+
 resource "aws_ecs_task_definition" "grafana_task" {
   family                   = "grafana-task"
   requires_compatibilities = ["FARGATE"]
@@ -38,7 +38,7 @@ resource "aws_ecs_task_definition" "grafana_task" {
   ])
 }
 
-# 4. Task Definition - Nginx
+
 resource "aws_ecs_task_definition" "nginx_task" {
   family                   = "nginx-task"
   requires_compatibilities = ["FARGATE"]
@@ -62,7 +62,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
   ])
 }
 
-# 5. Service - Grafana
+
 resource "aws_ecs_service" "grafana_service" {
   name            = "grafana-service"
   cluster        = aws_ecs_cluster.fargate_cluster.id
@@ -78,7 +78,7 @@ resource "aws_ecs_service" "grafana_service" {
   desired_count = 1
 }
 
-# 6. Service - Nginx
+
 resource "aws_ecs_service" "nginx_service" {
   name            = "nginx-service"
   cluster        = aws_ecs_cluster.fargate_cluster.id
@@ -94,7 +94,7 @@ resource "aws_ecs_service" "nginx_service" {
   desired_count = 1
 }
 
-# 7. Security Group - թույլատրել բոլոր կապերը
+
 resource "aws_security_group" "allow_all" {
   name_prefix = "allow-all"
   vpc_id      = aws_vpc.main.id
@@ -114,7 +114,7 @@ resource "aws_security_group" "allow_all" {
   }
 }
 
-# 8. IAM Role - Task Execution
+
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecsTaskExecutionRole"
 
